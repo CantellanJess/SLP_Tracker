@@ -247,8 +247,40 @@
 
         themeToggle.addEventListener('click', toggleTheme);
 
+        // Form persistence functionality
+        const registerForm = document.getElementById('register-form');
+        const formFields = ['first-name', 'last-name', 'username'];
+
+        // Save form data as user types
+        formFields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            field.addEventListener('input', () => {
+                localStorage.setItem(`register_${fieldId}`, field.value);
+            });
+        });
+
+        // Restore form data on page load
+        function restoreFormData() {
+            formFields.forEach(fieldId => {
+                const savedValue = localStorage.getItem(`register_${fieldId}`);
+                if (savedValue) {
+                    document.getElementById(fieldId).value = savedValue;
+                }
+            });
+        }
+
+        // Clear form data on successful registration
+        function clearFormData() {
+            formFields.forEach(fieldId => {
+                localStorage.removeItem(`register_${fieldId}`);
+            });
+        }
+
+        // Load saved form data when page loads
+        document.addEventListener('DOMContentLoaded', restoreFormData);
+
         // Registration functionality
-        document.getElementById('register-form').addEventListener('submit', (e) => {
+        registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const firstName = document.getElementById('first-name').value;
             const lastName = document.getElementById('last-name').value;
@@ -280,8 +312,14 @@
             };
 
             localStorage.setItem('users', JSON.stringify(users));
+            clearFormData(); // Clear saved form data after successful registration
             alert('Registration successful! You can now login.');
             window.location.href = 'index.html';
+        });
+
+        // Clear form data when clicking "Back to Login"
+        document.querySelector('.back-btn').addEventListener('click', () => {
+            clearFormData();
         });
     </script>
 </body>

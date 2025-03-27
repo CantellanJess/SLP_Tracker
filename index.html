@@ -436,7 +436,7 @@
             border: 2px solid var(--border-color);
             border-radius: 8px;
             padding: 10px;
-            min-width: 200px;
+            min-width: 150px;
             box-shadow: 0 4px 6px var(--shadow-color);
             display: none;
             z-index: 100;
@@ -455,54 +455,12 @@
             color: var(--text-color);
             text-decoration: none;
             display: block;
+            width: 100%;
+            text-align: left;
         }
 
         .dropdown-item:hover {
             background-color: var(--bg-color);
-        }
-
-        .profile-section {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 10px;
-        }
-
-        .profile-field {
-            margin-bottom: 10px;
-        }
-
-        .profile-field label {
-            display: block;
-            margin-bottom: 5px;
-            color: var(--text-color);
-            font-size: 0.9em;
-        }
-
-        .profile-field input {
-            width: 100%;
-            padding: 8px;
-            border: 2px solid var(--border-color);
-            border-radius: 4px;
-            background-color: var(--container-bg);
-            color: var(--text-color);
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-
-        .profile-field input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .save-profile-btn {
-            background-color: var(--accent-color);
-            color: white;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .save-profile-btn:hover {
-            background-color: var(--accent-hover);
         }
 
         .logout-btn {
@@ -812,6 +770,52 @@
             height: 45px !important;       /* Force consistent height */
             box-sizing: border-box;
         }
+
+        /* Edit input styles */
+        .edit-input {
+            padding: 12px;
+            height: 45px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .edit-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .profile-field {
+            margin-bottom: 10px;
+        }
+
+        .profile-field label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        .profile-field input {
+            padding: 12px;
+            height: 45px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .profile-field input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
     </style>
 </head>
 <body>
@@ -837,17 +841,6 @@
                         <span id="user-display"></span>
                     </button>
                     <div class="dropdown-menu" id="user-dropdown-menu">
-                        <div class="profile-section">
-                            <div class="profile-field">
-                                <label for="first-name">First Name</label>
-                                <input type="text" id="first-name" placeholder="Enter first name">
-                            </div>
-                            <div class="profile-field">
-                                <label for="last-name">Last Name</label>
-                                <input type="text" id="last-name" placeholder="Enter last name">
-                            </div>
-                            <button class="save-profile-btn" id="save-profile">Save Profile</button>
-                        </div>
                         <button class="logout-btn dropdown-item" id="logout-btn">Logout</button>
                     </div>
                 </div>
@@ -1112,17 +1105,17 @@
             // Update desktop view
             const row = logTable.children[index];
             if (row) {
-            row.innerHTML = `
-                <td><input type="date" value="${formatDate(entry.date)}" /></td>
-                <td><input type="time" value="${formatTime(entry.time)}" /></td>
-                <td><input type="number" value="${entry.hours}" min="0.1" step="0.1" /></td>
-                <td>
-                    <div class="edit-buttons">
-                        <button class="save-btn" onclick="saveEntry(${index})">Save</button>
-                        <button class="cancel-btn" onclick="cancelEdit(${index})">Cancel</button>
-                    </div>
-                </td>
-            `;
+                row.innerHTML = `
+                    <td><input type="date" class="edit-input" value="${formatDate(entry.date)}" /></td>
+                    <td><input type="time" class="edit-input" value="${formatTime(entry.time)}" /></td>
+                    <td><input type="number" class="edit-input" value="${entry.hours}" min="0.1" step="0.1" /></td>
+                    <td>
+                        <div class="edit-buttons">
+                            <button class="save-btn" onclick="saveEntry(${index})">Save</button>
+                            <button class="cancel-btn" onclick="cancelEdit(${index})">Cancel</button>
+                        </div>
+                    </td>
+                `;
             }
 
             // Update mobile view
@@ -1398,9 +1391,6 @@
         // Add user profile functionality
         const dropdownToggle = document.getElementById('user-dropdown-toggle');
         const dropdownMenu = document.getElementById('user-dropdown-menu');
-        const firstNameInput = document.getElementById('first-name');
-        const lastNameInput = document.getElementById('last-name');
-        const saveProfileBtn = document.getElementById('save-profile');
 
         // Toggle dropdown
         dropdownToggle.addEventListener('click', (e) => {
@@ -1421,8 +1411,6 @@
         function loadUserProfile() {
             if (currentUser && users[currentUser]) {
                 const userData = users[currentUser];
-                firstNameInput.value = userData.firstName || '';
-                lastNameInput.value = userData.lastName || '';
                 updateDisplayName();
             }
         }
@@ -1437,7 +1425,7 @@
         }
 
         // Save profile changes
-        saveProfileBtn.addEventListener('click', () => {
+        function saveUserProfile() {
             if (currentUser && users[currentUser]) {
                 users[currentUser].firstName = firstNameInput.value;
                 users[currentUser].lastName = lastNameInput.value;
@@ -1446,7 +1434,7 @@
                 dropdownToggle.classList.remove('active');
                 dropdownMenu.classList.remove('active');
             }
-        });
+        }
 
         // Update login function to load profile
         function login(username, password) {
