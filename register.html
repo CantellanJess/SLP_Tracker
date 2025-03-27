@@ -57,6 +57,7 @@
             border-radius: 16px;
             box-shadow: 0 4px 6px var(--shadow-color);
             text-align: center;
+            box-sizing: border-box;
         }
 
         h1 {
@@ -73,6 +74,24 @@
             margin-top: 20px;
         }
 
+        .name-fields {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .form-field label {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
         .register-form input {
             padding: 12px;
             border: 2px solid var(--border-color);
@@ -80,6 +99,8 @@
             background-color: var(--container-bg);
             color: var(--text-color);
             font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .register-form input:focus {
@@ -139,6 +160,11 @@
                 margin: 50px 20px;
                 padding: 25px;
             }
+
+            .name-fields {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
 
         @media screen and (max-width: 480px) {
@@ -177,9 +203,28 @@
     <div class="register-container">
         <h1>Register</h1>
         <form class="register-form" id="register-form">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+            <div class="name-fields">
+                <div class="form-field">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" placeholder="Enter first name" required>
+                </div>
+                <div class="form-field">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" placeholder="Enter last name" required>
+                </div>
+            </div>
+            <div class="form-field">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Choose a username" required>
+            </div>
+            <div class="form-field">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+            <div class="form-field">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Confirm password" required>
+            </div>
             <button type="submit" class="register-btn">Register</button>
         </form>
         <button onclick="window.location.href='index.html'" class="back-btn">Back to Login</button>
@@ -205,6 +250,8 @@
         // Registration functionality
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
@@ -222,6 +269,8 @@
             }
 
             users[username] = {
+                firstName: firstName,
+                lastName: lastName,
                 password: password,
                 data: {
                     totalHours: 0,

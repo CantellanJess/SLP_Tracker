@@ -255,6 +255,33 @@
             margin: 10px 0;
         }
 
+        #remaining-hours {
+            font-size: 1.1em;
+            color: var(--text-color);
+            margin: 5px 0;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: var(--container-bg);
+            border-radius: 8px;
+            height: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .progress-bar.complete {
+            background-color: var(--success-color);
+        }
+
         .clear-all-btn {
             background-color: var(--danger-color);
             color: white;
@@ -350,6 +377,7 @@
             transform: translateY(-1px);
         }
 
+        /* User info and dropdown styles */
         .user-info {
             display: flex;
             justify-content: space-between;
@@ -358,26 +386,134 @@
             background-color: var(--bg-color);
             border-radius: 8px;
             margin-bottom: 20px;
+            position: relative;
+        }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+            width: auto;
+        }
+
+        .dropdown-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.1em;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            text-align: left;
+        }
+
+        #user-display {
+            display: inline-block;
+            text-align: left;
+        }
+
+        .dropdown-toggle:hover {
+            color: var(--accent-color);
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-toggle.active::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--container-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 200px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--bg-color);
+        }
+
+        .profile-section {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+        }
+
+        .profile-field {
+            margin-bottom: 10px;
+        }
+
+        .profile-field label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        .profile-field input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .profile-field input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .save-profile-btn {
+            background-color: var(--accent-color);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .save-profile-btn:hover {
+            background-color: var(--accent-hover);
         }
 
         .logout-btn {
             background-color: var(--danger-color);
             color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
         }
 
         .logout-btn:hover {
             background-color: var(--danger-hover);
-        }
-
-        .welcome-text {
-            color: var(--text-color);
-            font-size: 1.1em;
         }
 
         #app-container {
@@ -611,9 +747,30 @@
 
             /* Stack user info vertically */
             .user-info {
-                flex-direction: column;
+                flex-direction: row;        /* Keep horizontal layout */
                 gap: 10px;
-                text-align: center;
+                text-align: left;          /* Align text to left */
+                padding: 10px;             /* Reduce padding */
+            }
+
+            .user-dropdown {
+                width: auto;               /* Allow natural width */
+            }
+
+            .dropdown-toggle {
+                font-size: 1em;            /* Slightly smaller font */
+                padding: 8px 5px;          /* Adjust padding */
+            }
+
+            #user-display {
+                max-width: none;           /* Remove max-width constraint */
+                overflow: visible;         /* Show full text */
+                white-space: nowrap;       /* Keep on one line */
+            }
+
+            .dropdown-menu {
+                min-width: 250px;          /* Ensure dropdown is wide enough */
+                max-width: 90vw;           /* Limit width on very small screens */
             }
 
             /* Full width buttons on mobile */
@@ -659,70 +816,91 @@
 </head>
 <body>
     <div class="main-container">
-        <button class="theme-toggle" id="theme-toggle">🌓</button>
+    <button class="theme-toggle" id="theme-toggle">🌓</button>
 
-        <div id="login-container" class="login-container">
-            <h1>SLP Hour Logger</h1>
-            <form class="login-form" id="login-form">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
+    <div id="login-container" class="login-container">
+        <h1>SLP Hour Logger</h1>
+        <form class="login-form" id="login-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
             <p style="margin-top: 15px; color: var(--text-color);">
                 Don't have an account? <a href="register.html" style="color: var(--accent-color); text-decoration: none;">Register here</a>
             </p>
+    </div>
+
+    <div id="app-container" class="container">
+        <div class="user-info">
+                <div class="user-dropdown">
+                    <button class="dropdown-toggle" id="user-dropdown-toggle">
+                        <span id="user-display"></span>
+                    </button>
+                    <div class="dropdown-menu" id="user-dropdown-menu">
+                        <div class="profile-section">
+                            <div class="profile-field">
+                                <label for="first-name">First Name</label>
+                                <input type="text" id="first-name" placeholder="Enter first name">
+                            </div>
+                            <div class="profile-field">
+                                <label for="last-name">Last Name</label>
+                                <input type="text" id="last-name" placeholder="Enter last name">
+                            </div>
+                            <button class="save-profile-btn" id="save-profile">Save Profile</button>
+                        </div>
+                        <button class="logout-btn dropdown-item" id="logout-btn">Logout</button>
+                    </div>
+                </div>
         </div>
 
-        <div id="app-container" class="container">
-            <div class="user-info">
-                <span class="welcome-text">Welcome, <span id="user-display"></span></span>
-                <button class="logout-btn" id="logout-btn">Logout</button>
-            </div>
+        <div class="input-group">
+            <input type="number" id="total-hours" placeholder="Enter total required hours" min="1" required>
+            <button id="set-total">Set Total Hours</button>
+        </div>
 
+        <div id="edit-total-container">
             <div class="input-group">
-                <input type="number" id="total-hours" placeholder="Enter total required hours" min="1" required>
-                <button id="set-total">Set Total Hours</button>
+                <input type="number" id="edit-total-hours" placeholder="Edit total hours" min="1" step="0.1" required>
+                <button id="save-total">Save</button>
+                <button id="cancel-total">Cancel</button>
             </div>
+        </div>
 
-            <div id="edit-total-container">
-                <div class="input-group">
-                    <input type="number" id="edit-total-hours" placeholder="Edit total hours" min="1" step="0.1" required>
-                    <button id="save-total">Save</button>
-                    <button id="cancel-total">Cancel</button>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <input type="number" id="log-hours" placeholder="Enter hours completed today" min="0.1" step="0.1" required>
-                <button id="add-hours">Log Hours</button>
-            </div>
+        <div class="input-group">
+            <input type="number" id="log-hours" placeholder="Enter hours completed today" min="0.1" step="0.1" required>
+            <button id="add-hours">Log Hours</button>
+        </div>
 
             <!-- Desktop table view -->
             <table class="desktop-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Hours Logged</th>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Hours Logged</th>
                         <th>Notes</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="log-table">
-                    <!-- Log entries will be added here -->
-                </tbody>
-            </table>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="log-table">
+                <!-- Log entries will be added here -->
+            </tbody>
+        </table>
 
             <!-- Mobile weekly view -->
             <div class="weekly-view" id="weekly-view">
                 <!-- Weekly entries will be added here -->
             </div>
 
-            <div class="summary">
-                <span id="total-hours-display"></span>
-                <button id="edit-total-btn">Edit Total Hours</button>
-                <div id="summary"></div>
-                <button id="clear-all" class="clear-all-btn">Clear All Data</button>
+        <div class="summary">
+            <span id="total-hours-display"></span>
+            <button id="edit-total-btn">Edit Total Hours</button>
+            <div id="summary"></div>
+                <div id="remaining-hours"></div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            <button id="clear-all" class="clear-all-btn">Clear All Data</button>
             </div>
 
             <!-- Notes Modal -->
@@ -929,9 +1107,11 @@
 
         function editEntry(index) {
             const entry = logEntries[index];
-            const row = logTable.children[index];
             editingEntry = index;
 
+            // Update desktop view
+            const row = logTable.children[index];
+            if (row) {
             row.innerHTML = `
                 <td><input type="date" value="${formatDate(entry.date)}" /></td>
                 <td><input type="time" value="${formatTime(entry.time)}" /></td>
@@ -943,6 +1123,32 @@
                     </div>
                 </td>
             `;
+            }
+
+            // Update mobile view
+            const dayContent = document.getElementById(`day-content-${index}`);
+            if (dayContent) {
+                dayContent.innerHTML = `
+                    <div class="entry-details">
+                        <div class="profile-field">
+                            <label>Date</label>
+                            <input type="date" value="${formatDate(entry.date)}" />
+                        </div>
+                        <div class="profile-field">
+                            <label>Time</label>
+                            <input type="time" value="${formatTime(entry.time)}" />
+                        </div>
+                        <div class="profile-field">
+                            <label>Hours</label>
+                            <input type="number" value="${entry.hours}" min="0.1" step="0.1" />
+                        </div>
+                    </div>
+                    <div class="entry-actions">
+                        <button class="save-btn" onclick="saveEntry(${index})">Save</button>
+                        <button class="cancel-btn" onclick="cancelEdit(${index})">Cancel</button>
+                    </div>
+                `;
+            }
         }
 
         function formatDate(dateStr) {
@@ -955,15 +1161,32 @@
         }
 
         function saveEntry(index) {
-            const row = logTable.children[index];
-            const inputs = row.getElementsByTagName('input');
             const oldHours = logEntries[index].hours;
             const oldNotes = logEntries[index].notes;
+            let newDate, newTime, newHours;
+
+            // Get values from desktop view
+            const row = logTable.children[index];
+            if (row) {
+            const inputs = row.getElementsByTagName('input');
+                newDate = inputs[0].value;
+                newTime = inputs[1].value;
+                newHours = inputs[2].value;
+            }
+
+            // Get values from mobile view
+            const dayContent = document.getElementById(`day-content-${index}`);
+            if (dayContent) {
+                const inputs = dayContent.getElementsByTagName('input');
+                newDate = inputs[0].value;
+                newTime = inputs[1].value;
+                newHours = inputs[2].value;
+            }
 
             logEntries[index] = {
-                date: new Date(inputs[0].value).toLocaleDateString(),
-                time: inputs[1].value,
-                hours: parseFloat(inputs[2].value),
+                date: new Date(newDate).toLocaleDateString(),
+                time: newTime,
+                hours: parseFloat(newHours),
                 notes: oldNotes || ''
             };
 
@@ -1045,8 +1268,17 @@
                 refreshTable();
                 updateSummary();
                 
+                // Reset progress bar explicitly
+                const progressBar = document.getElementById('progress-bar');
+                progressBar.style.width = '0%';
+                progressBar.classList.remove('complete');
+                document.getElementById('remaining-hours').textContent = 'Remaining Hours: 0.00';
+                
                 // Hide edit total container if it's open
                 editTotalContainer.classList.remove('active');
+
+                // Save the cleared state
+                saveData();
             }
         }
 
@@ -1092,6 +1324,22 @@
 
         function updateSummary() {
             summary.textContent = `Total Hours Logged: ${loggedHours.toFixed(2)} / ${totalHours}`;
+            
+            // Calculate and display remaining hours
+            const remainingHours = Math.max(0, totalHours - loggedHours);
+            document.getElementById('remaining-hours').textContent = `Remaining Hours: ${remainingHours.toFixed(2)}`;
+            
+            // Update progress bar
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercentage = (loggedHours / totalHours) * 100;
+            progressBar.style.width = `${Math.min(100, progressPercentage)}%`;
+            
+            // Add or remove complete class based on progress
+            if (progressPercentage >= 100) {
+                progressBar.classList.add('complete');
+            } else {
+                progressBar.classList.remove('complete');
+            }
         }
 
         // Add theme toggle functionality
@@ -1146,6 +1394,73 @@
                 closeModal();
             }
         });
+
+        // Add user profile functionality
+        const dropdownToggle = document.getElementById('user-dropdown-toggle');
+        const dropdownMenu = document.getElementById('user-dropdown-menu');
+        const firstNameInput = document.getElementById('first-name');
+        const lastNameInput = document.getElementById('last-name');
+        const saveProfileBtn = document.getElementById('save-profile');
+
+        // Toggle dropdown
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownToggle.classList.toggle('active');
+            dropdownMenu.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+                dropdownToggle.classList.remove('active');
+                dropdownMenu.classList.remove('active');
+            }
+        });
+
+        // Load user profile data
+        function loadUserProfile() {
+            if (currentUser && users[currentUser]) {
+                const userData = users[currentUser];
+                firstNameInput.value = userData.firstName || '';
+                lastNameInput.value = userData.lastName || '';
+                updateDisplayName();
+            }
+        }
+
+        // Update display name
+        function updateDisplayName() {
+            const userData = users[currentUser];
+            const displayName = userData.firstName ? 
+                `Welcome, ${userData.firstName}` : 
+                `Welcome, ${currentUser}`;
+            document.getElementById('user-display').textContent = displayName;
+        }
+
+        // Save profile changes
+        saveProfileBtn.addEventListener('click', () => {
+            if (currentUser && users[currentUser]) {
+                users[currentUser].firstName = firstNameInput.value;
+                users[currentUser].lastName = lastNameInput.value;
+                saveUsers();
+                updateDisplayName();
+                dropdownToggle.classList.remove('active');
+                dropdownMenu.classList.remove('active');
+            }
+        });
+
+        // Update login function to load profile
+        function login(username, password) {
+            if (users[username] && users[username].password === password) {
+                currentUser = username;
+                localStorage.setItem('currentUser', username);
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+                loadUserProfile();
+                loadUserData();
+                return true;
+            }
+            return false;
+        }
     </script>
 </body>
 </html>
