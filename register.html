@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - SLP Hour Logger</title>
+    <style>
+        :root[data-theme="light"] {
+            --bg-color: #f4f4f9;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --primary-color: #6b7280;
+            --primary-hover: #4b5563;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --success-color: #10b981;
+            --success-hover: #059669;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        :root[data-theme="dark"] {
+            --bg-color: #1f2937;
+            --container-bg: #111827;
+            --text-color: #f3f4f6;
+            --border-color: #374151;
+            --primary-color: #6b7280;
+            --primary-hover: #9ca3af;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --success-color: #10b981;
+            --success-hover: #059669;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .register-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: var(--container-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+
+        .register-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .register-form input {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            font-size: 1em;
+        }
+
+        .register-form input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .register-btn {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .register-btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .back-btn {
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .back-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 1.5em;
+            padding: 10px;
+            border-radius: 50%;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .register-container {
+                margin: 50px auto;
+                padding: 20px;
+                width: 90%;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .register-container {
+                margin: 30px auto;
+                padding: 15px;
+            }
+
+            .register-form {
+                gap: 10px;
+            }
+
+            .register-form input {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle">🌓</button>
+
+    <div class="register-container">
+        <h1>Register</h1>
+        <form class="register-form" id="register-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+            <button type="submit" class="register-btn">Register</button>
+        </form>
+        <button onclick="window.location.href='index.html'" class="back-btn">Back to Login</button>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        function toggleTheme() {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Registration functionality
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            
+            if (users[username]) {
+                alert('Username already exists!');
+                return;
+            }
+
+            users[username] = {
+                password: password,
+                data: {
+                    totalHours: 0,
+                    loggedHours: 0,
+                    logEntries: []
+                }
+            };
+
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Registration successful! You can now login.');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html> 

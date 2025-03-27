@@ -351,6 +351,80 @@
             display: block;
         }
 
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 20px;
+                width: 95%;
+            }
+
+            .input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .input-group input,
+            .input-group button {
+                width: 100%;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .edit-buttons {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .edit-buttons button {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .login-container {
+                margin: 50px auto;
+                padding: 20px;
+                width: 90%;
+            }
+
+            .summary {
+                text-align: center;
+            }
+
+            .user-info {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .notes-preview {
+                max-width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
         /* Notes Modal Styles */
         .modal {
             display: none;
@@ -425,8 +499,10 @@
             <input type="text" id="username" placeholder="Username" required>
             <input type="password" id="password" placeholder="Password" required>
             <button type="submit">Login</button>
-            <button type="button" id="register-btn">Register</button>
         </form>
+        <p style="margin-top: 15px; color: var(--text-color);">
+            Don't have an account? <a href="register.html" style="color: var(--accent-color); text-decoration: none;">Register here</a>
+        </p>
     </div>
 
     <div id="app-container" class="container">
@@ -581,20 +657,6 @@
             
             if (!login(username, password)) {
                 alert('Invalid username or password');
-            }
-        });
-
-        document.getElementById('register-btn').addEventListener('click', () => {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            if (!username || !password) {
-                alert('Please enter both username and password');
-                return;
-            }
-            
-            if (register(username, password)) {
-                alert('Registration successful! You can now login.');
             }
         });
 
