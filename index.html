@@ -128,7 +128,8 @@
         /* Input field styles */
         .input-group input {
             flex: 1;                       /* Take up remaining space */
-            padding: 0px;
+            padding: 12px;                 /* Increased padding for more height */
+            height: 45px;                  /* Set explicit height */
             border: 2px solid var(--border-color);
             border-radius: 8px;
             background-color: var(--container-bg);
@@ -261,7 +262,8 @@
 
         .editable-cell input {
             width: 100%;
-            padding: 8px;
+            padding: 12px;
+            height: 45px;                  /* Match height with other inputs */
             border: 2px solid var(--border-color);
             border-radius: 4px;
             background-color: var(--container-bg);
@@ -309,8 +311,10 @@
             margin-top: 20px;
         }
 
+        /* Login form input styles */
         .login-form input {
             padding: 12px;
+            height: 45px;                  /* Match height with other inputs */
             border: 2px solid var(--border-color);
             border-radius: 8px;
             background-color: var(--container-bg);
@@ -411,12 +415,14 @@
             width: 100%;
             min-height: 150px;
             margin: 10px 0;
-            padding: 0px;
-            border: 1px solid var(--border-color);
+            padding: 12px;                 /* Increased padding */
+            border: 2px solid var(--border-color);
             border-radius: 8px;
             background-color: var(--bg-color);
             color: var(--text-color);
             resize: vertical;              /* Allow vertical resizing */
+            font-size: 1em;               /* Consistent font size */
+            line-height: 1.5;             /* Better line spacing for readability */
         }
 
         .modal-buttons {
