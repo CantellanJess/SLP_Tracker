@@ -5,32 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SLP Hour Logger</title>
     <style>
+        /* Theme Variables - Light Mode */
         :root[data-theme="light"] {
-            --bg-color: #f4f4f9;
-            --container-bg: #ffffff;
-            --text-color: #333333;
-            --border-color: #e0e0e0;
-            --primary-color: #6b7280;
-            --primary-hover: #4b5563;
-            --accent-color: #8b5cf6;
-            --accent-hover: #7c3aed;
-            --danger-color: #ef4444;
-            --danger-hover: #dc2626;
-            --success-color: #10b981;
-            --success-hover: #059669;
-            --warning-color: #f59e0b;
-            --warning-hover: #d97706;
-            --table-header: #f3f4f6;
-            --shadow-color: rgba(0, 0, 0, 0.1);
+            /* Main background and container colors */
+            --bg-color: #f4f4f9;          /* Light gray background for the page */
+            --container-bg: #ffffff;       /* White background for containers */
+            --text-color: #333333;         /* Dark gray for text */
+            --border-color: #e0e0e0;       /* Light gray for borders */
+            
+            /* Button and interactive element colors */
+            --primary-color: #6b7280;      /* Default button color */
+            --primary-hover: #4b5563;      /* Darker shade for button hover */
+            --accent-color: #8b5cf6;       /* Purple accent for important elements */
+            --accent-hover: #7c3aed;       /* Darker purple for accent hover */
+            --danger-color: #ef4444;       /* Red for dangerous actions */
+            --danger-hover: #dc2626;       /* Darker red for danger hover */
+            --success-color: #10b981;      /* Green for success states */
+            --success-hover: #059669;      /* Darker green for success hover */
+            --warning-color: #f59e0b;      /* Orange for warnings */
+            --warning-hover: #d97706;      /* Darker orange for warning hover */
+            
+            /* Table and shadow colors */
+            --table-header: #f3f4f6;       /* Light gray for table headers */
+            --shadow-color: rgba(0, 0, 0, 0.1); /* Subtle shadow */
         }
 
+        /* Theme Variables - Dark Mode */
         :root[data-theme="dark"] {
-            --bg-color: #1f2937;
-            --container-bg: #111827;
-            --text-color: #f3f4f6;
-            --border-color: #374151;
+            /* Dark theme equivalents */
+            --bg-color: #1f2937;           /* Dark blue-gray background */
+            --container-bg: #111827;       /* Darker background for containers */
+            --text-color: #f3f4f6;         /* Light gray text for contrast */
+            --border-color: #374151;       /* Medium gray for borders */
+            
+            /* Button colors adjusted for dark mode */
             --primary-color: #6b7280;
-            --primary-hover: #9ca3af;
+            --primary-hover: #9ca3af;      /* Lighter hover for dark mode */
             --accent-color: #8b5cf6;
             --accent-hover: #7c3aed;
             --danger-color: #ef4444;
@@ -39,14 +49,18 @@
             --success-hover: #059669;
             --warning-color: #f59e0b;
             --warning-hover: #d97706;
-            --table-header: #374151;
-            --shadow-color: rgba(0, 0, 0, 0.3);
+            
+            /* Dark mode specific colors */
+            --table-header: #374151;       /* Darker table headers */
+            --shadow-color: rgba(0, 0, 0, 0.3); /* Stronger shadow for contrast */
         }
 
+        /* Global transition for theme switching */
         * {
             transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
+        /* Base body styles */
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
@@ -55,15 +69,17 @@
             color: var(--text-color);
         }
 
+        /* Main container styles */
         .container {
-            max-width: 800px;
-            margin: 50px auto;
+            max-width: 800px;              /* Limit width on large screens */
+            margin: 50px auto;             /* Center container with top/bottom spacing */
             padding: 30px;
             background-color: var(--container-bg);
-            border-radius: 16px;
-            box-shadow: 0 4px 6px var(--shadow-color);
+            border-radius: 16px;           /* Rounded corners */
+            box-shadow: 0 4px 6px var(--shadow-color); /* Subtle elevation */
         }
 
+        /* Header styles */
         h1 {
             text-align: center;
             color: var(--text-color);
@@ -72,8 +88,9 @@
             font-weight: 600;
         }
 
+        /* Theme toggle button styles */
         .theme-toggle {
-            position: absolute;
+            position: absolute;            /* Fixed position in top-right corner */
             top: 20px;
             right: 20px;
             background: none;
@@ -82,7 +99,7 @@
             cursor: pointer;
             font-size: 1.5em;
             padding: 10px;
-            border-radius: 50%;
+            border-radius: 50%;            /* Circular button */
             transition: background-color 0.3s;
         }
 
@@ -90,15 +107,17 @@
             background-color: var(--primary-color);
         }
 
+        /* Input group container styles */
         .input-group {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
-            gap: 10px;
+            gap: 10px;                     /* Space between inputs and buttons */
         }
 
+        /* Input field styles */
         .input-group input {
-            flex: 1;
+            flex: 1;                       /* Take up remaining space */
             padding: 12px;
             border: 2px solid var(--border-color);
             border-radius: 8px;
@@ -107,20 +126,23 @@
             font-size: 1em;
         }
 
+        /* Input focus state */
         .input-group input:focus {
             outline: none;
-            border-color: var(--accent-color);
+            border-color: var(--accent-color); /* Highlight when focused */
         }
 
+        /* Base button styles */
         button {
             padding: 12px 24px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease;     /* Smooth hover transitions */
         }
 
+        /* Action button styles */
         .input-group button {
             background-color: var(--accent-color);
             color: white;
@@ -128,18 +150,20 @@
 
         .input-group button:hover {
             background-color: var(--accent-hover);
-            transform: translateY(-1px);
+            transform: translateY(-1px);    /* Slight lift effect on hover */
         }
 
+        /* Table styles */
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             margin-top: 30px;
             border-radius: 8px;
-            overflow: hidden;
+            overflow: hidden;              /* Contain rounded corners */
         }
 
+        /* Table cell styles */
         th, td {
             padding: 15px;
             text-align: center;
@@ -149,28 +173,27 @@
         th {
             background-color: var(--table-header);
             font-weight: 600;
-            text-transform: uppercase;
+            text-transform: uppercase;     /* Uppercase table headers */
             font-size: 0.85em;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.05em;        /* Slight letter spacing for headers */
         }
 
+        /* Zebra striping for table rows */
         tr:nth-child(even) {
             background-color: var(--bg-color);
         }
 
+        /* Button group styles in table */
         .edit-buttons {
             display: flex;
             gap: 8px;
             justify-content: center;
         }
 
+        /* Various button styles */
         .edit-btn {
             background-color: var(--warning-color);
             color: white;
-        }
-
-        .edit-btn:hover {
-            background-color: var(--warning-hover);
         }
 
         .delete-btn {
@@ -178,17 +201,9 @@
             color: white;
         }
 
-        .delete-btn:hover {
-            background-color: var(--danger-hover);
-        }
-
         .save-btn {
             background-color: var(--success-color);
             color: white;
-        }
-
-        .save-btn:hover {
-            background-color: var(--success-hover);
         }
 
         .cancel-btn {
@@ -200,6 +215,7 @@
             background-color: var(--primary-hover);
         }
 
+        /* Summary section styles */
         .summary {
             text-align: right;
             margin-top: 30px;
@@ -351,98 +367,25 @@
             display: block;
         }
 
-        /* Responsive Design */
-        @media screen and (max-width: 768px) {
-            .container {
-                margin: 20px auto;
-                padding: 20px;
-                width: 95%;
-            }
-
-            .input-group {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .input-group input,
-            .input-group button {
-                width: 100%;
-            }
-
-            table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-
-            .edit-buttons {
-                flex-wrap: wrap;
-                gap: 5px;
-            }
-
-            .edit-buttons button {
-                padding: 8px 16px;
-                font-size: 0.9em;
-            }
-
-            .modal-content {
-                width: 95%;
-                margin: 10px;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .login-container {
-                margin: 50px auto;
-                padding: 20px;
-                width: 90%;
-            }
-
-            .summary {
-                text-align: center;
-            }
-
-            .user-info {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-
-            th, td {
-                padding: 10px;
-                font-size: 0.9em;
-            }
-
-            .notes-preview {
-                max-width: 150px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-        }
-
         /* Notes Modal Styles */
         .modal {
-            display: none;
-            position: fixed;
+            display: none;                 /* Hidden by default */
+            position: fixed;               /* Fixed overlay */
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+            z-index: 1000;                /* Ensure modal is on top */
             justify-content: center;
             align-items: center;
         }
 
         .modal.active {
-            display: flex;
+            display: flex;                 /* Show modal when active */
         }
 
+        /* Modal content container */
         .modal-content {
             background-color: var(--container-bg);
             padding: 20px;
@@ -453,6 +396,7 @@
             box-shadow: 0 4px 6px var(--shadow-color);
         }
 
+        /* Notes textarea styles */
         .modal-content textarea {
             width: 100%;
             min-height: 150px;
@@ -462,7 +406,7 @@
             border-radius: 8px;
             background-color: var(--bg-color);
             color: var(--text-color);
-            resize: vertical;
+            resize: vertical;              /* Allow vertical resizing */
         }
 
         .modal-buttons {
@@ -487,6 +431,183 @@
             font-style: italic;
             margin-top: 5px;
             cursor: pointer;
+        }
+
+        /* Weekly view styles for mobile */
+        .weekly-view {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* Individual day entry styles */
+        .day-entry {
+            background-color: var(--container-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Day header styles */
+        .day-header {
+            padding: 15px;
+            background-color: var(--table-header);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .day-header:hover {
+            background-color: var(--border-color);
+        }
+
+        .day-content {
+            display: none;
+            padding: 15px;
+        }
+
+        .day-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        /* Entry details styles */
+        .entry-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            color: var(--primary-color);
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        /* Entry actions styles */
+        .entry-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .entry-actions button {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        /* Responsive Media Queries */
+        @media screen and (max-width: 768px) {
+            /* Tablet and mobile styles */
+            .container {
+                margin: 20px 10px;
+                padding: 20px;
+            }
+
+            .input-group {
+                flex-direction: column;    /* Stack inputs vertically */
+            }
+
+            /* Make inputs and buttons full width */
+            .input-group input,
+            .input-group button {
+                width: 100%;
+            }
+
+            /* Hide desktop table on mobile */
+            .desktop-table {
+                display: none;
+            }
+
+            /* Adjust day entry spacing */
+            .weekly-view {
+                gap: 10px;
+                margin: 20px 0;
+            }
+
+            /* Make buttons more touch-friendly */
+            .entry-actions button {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            /* Adjust detail grid for smaller screens */
+            .entry-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+            /* Hide weekly view on desktop */
+            .weekly-view {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            /* Small mobile styles */
+            .container {
+                margin: 10px 5px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;          /* Smaller heading on mobile */
+            }
+
+            /* Stack user info vertically */
+            .user-info {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            /* Full width buttons on mobile */
+            .logout-btn {
+                width: 100%;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .notes-preview {
+                max-width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .login-container {
+                margin: 50px 20px;
+                padding: 20px;
+            }
+
+            .login-form {
+                gap: 10px;
+            }
+
+            .login-form input,
+            .login-form button {
+                width: 100%;
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -529,7 +650,8 @@
             <button id="add-hours">Log Hours</button>
         </div>
 
-        <table>
+        <!-- Desktop table view -->
+        <table class="desktop-table">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -543,6 +665,11 @@
                 <!-- Log entries will be added here -->
             </tbody>
         </table>
+
+        <!-- Mobile weekly view -->
+        <div class="weekly-view" id="weekly-view">
+            <!-- Weekly entries will be added here -->
+        </div>
 
         <div class="summary">
             <span id="total-hours-display"></span>
@@ -702,10 +829,58 @@
             return row;
         }
 
+        function createDayEntry(entry, index) {
+            const dayEntry = document.createElement('div');
+            dayEntry.className = 'day-entry';
+            const notesPreview = entry.notes ? entry.notes.substring(0, 50) + (entry.notes.length > 50 ? '...' : '') : 'No notes';
+            
+            dayEntry.innerHTML = `
+                <div class="day-header" onclick="toggleDayContent(${index})">
+                    <span>${entry.date}</span>
+                    <span>${entry.hours.toFixed(2)} hours</span>
+                </div>
+                <div class="day-content" id="day-content-${index}">
+                    <div class="entry-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Time</span>
+                            <span class="detail-value">${entry.time}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Hours</span>
+                            <span class="detail-value">${entry.hours.toFixed(2)}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Notes</span>
+                            <span class="detail-value">${notesPreview}</span>
+                        </div>
+                    </div>
+                    <div class="entry-actions">
+                        <button class="notes-btn" onclick="viewNotes(${index})">Notes</button>
+                        <button class="edit-btn" onclick="editEntry(${index})">Edit</button>
+                        <button class="delete-btn" onclick="deleteEntry(${index})">Delete</button>
+                    </div>
+                </div>
+            `;
+            return dayEntry;
+        }
+
+        function toggleDayContent(index) {
+            const content = document.getElementById(`day-content-${index}`);
+            content.classList.toggle('active');
+        }
+
         function refreshTable() {
+            // Update desktop view
             logTable.innerHTML = '';
             logEntries.forEach((entry, index) => {
                 logTable.appendChild(createTableRow(entry, index));
+            });
+
+            // Update weekly view
+            const weeklyView = document.getElementById('weekly-view');
+            weeklyView.innerHTML = '';
+            logEntries.forEach((entry, index) => {
+                weeklyView.appendChild(createDayEntry(entry, index));
             });
         }
 
