@@ -128,13 +128,14 @@
         /* Input field styles */
         .input-group input {
             flex: 1;                       /* Take up remaining space */
-            padding: 12px;                 /* Increased padding for more height */
-            height: 45px;                  /* Set explicit height */
+            padding: 12px;                 /* Increased padding for better height */
             border: 2px solid var(--border-color);
             border-radius: 8px;
             background-color: var(--container-bg);
             color: var(--text-color);
             font-size: 1em;
+            height: 45px;                  /* Set explicit height */
+            box-sizing: border-box;        /* Include padding in height calculation */
         }
 
         /* Input focus state */
@@ -262,12 +263,13 @@
 
         .editable-cell input {
             width: 100%;
-            padding: 12px;
+            padding: 12px;                 /* Increased padding */
             height: 45px;                  /* Match height with other inputs */
             border: 2px solid var(--border-color);
             border-radius: 4px;
             background-color: var(--container-bg);
             color: var(--text-color);
+            box-sizing: border-box;        /* Include padding in height calculation */
         }
 
         #edit-total-container {
@@ -320,6 +322,7 @@
             background-color: var(--container-bg);
             color: var(--text-color);
             font-size: 1em;
+            box-sizing: border-box;        /* Include padding in height calculation */
         }
 
         .login-form input:focus {
@@ -421,7 +424,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             resize: vertical;              /* Allow vertical resizing */
-            font-size: 1em;               /* Consistent font size */
+            font-size: 1em;               /* Match font size with inputs */
             line-height: 1.5;             /* Better line spacing for readability */
         }
 
@@ -624,6 +627,12 @@
                 width: 100%;
                 padding: 10px;
             }
+        }
+
+        /* Edit total input styles */
+        #edit-total-hours {
+            height: 45px !important;       /* Force consistent height */
+            box-sizing: border-box;
         }
     </style>
 </head>
